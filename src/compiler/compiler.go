@@ -6,13 +6,13 @@ import (
 )
 
 func Run(source string) {
-	fmt.Println("Compiling file...")
 	// Scan source code
 	tokens := tokenize(source)
 	// Analyze loops
 	loopMap := buildLoopMap(tokens)
-
-	fmt.Println(loopMap)
+	evaluate(tokens, loopMap)
+	fmt.Print('\n')
+	fmt.Print()
 }
 
 func tokenize(source string) []Token {
@@ -60,4 +60,28 @@ func buildLoopMap(tokens []Token) map[int]int {
 	}
 
 	return loopMap
+}
+
+func evaluate(tokens []Token, loopMap map[int]int) {
+	end := len(tokens)
+	tape := CreateTape(1000)
+	for i := 0; i < end; i++ {
+		token := tokens[i]
+		switch token.Type {
+		case MVR, MVL:
+			tape.MoveCursor(token.Value)
+		case INC, DEC:
+			tape.ChangeCellValue(token.Value)
+		case PRINT:
+			tape.Print()
+		case BLOOP:
+			if tape.Cell() == 0 {
+				i = loopMap[i]
+			}
+		case ELOOP:
+			if tape.Cell() != 0 {
+				i = loopMap[i]
+			}
+		}
+	}
 }

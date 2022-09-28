@@ -1,5 +1,7 @@
 package compiler
 
+import "fmt"
+
 type Tape struct {
 	data   []int
 	cursor int
@@ -33,6 +35,15 @@ func (t *Tape) MoveCursor(dir int) {
 	}
 }
 
+func (t Tape) Cell() int {
+	return t.data[t.cursor]
+}
+
 func (t Tape) GetTape() []int {
 	return t.data
+}
+
+func (t Tape) Print() {
+	c := t.data[t.cursor]
+	fmt.Print(string(rune(c)))
 }
