@@ -7,9 +7,7 @@ import (
 func Run(source string) {
 	fmt.Println("Compiling file...")
 	// Scan source code
-	scan(source)
-}
+	tokens := Tokenize(source)
 
-func scan(_ string) {
-	// TODO
+	fmt.Println(tokens)
 }
