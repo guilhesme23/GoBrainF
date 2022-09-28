@@ -2,7 +2,8 @@ package compiler
 
 import (
 	"bfcc/src/utils"
-	"fmt"
+	"bufio"
+	"os"
 )
 
 func Run(source string) {
@@ -11,8 +12,6 @@ func Run(source string) {
 	// Analyze loops
 	loopMap := buildLoopMap(tokens)
 	evaluate(tokens, loopMap)
-	fmt.Print('\n')
-	fmt.Print()
 }
 
 func tokenize(source string) []Token {
@@ -82,6 +81,10 @@ func evaluate(tokens []Token, loopMap map[int]int) {
 			if tape.Cell() != 0 {
 				i = loopMap[i]
 			}
+		case READ:
+			reader := bufio.NewReader(os.Stdin)
+			text, _, _ := reader.ReadRune()
+			tape.SetCell(text)
 		}
 	}
 }

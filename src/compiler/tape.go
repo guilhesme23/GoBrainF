@@ -25,6 +25,12 @@ func (t *Tape) ChangeCellValue(val int) {
 	}
 }
 
+func (t *Tape) SetCell(val rune) {
+	if val >= 0 && val < 256 {
+		t.data[t.cursor] = int(val)
+	}
+}
+
 func (t *Tape) MoveCursor(dir int) {
 	idx := (t.cursor + dir) % t.size
 
